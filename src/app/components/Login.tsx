@@ -135,7 +135,7 @@ const Login = ({ type }: LoginProps) => {
                 id="d-username"
                 name="username"
                 autoComplete="off"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full bg-slate-100"
               />
             </div>
             <div>
@@ -151,7 +151,7 @@ const Login = ({ type }: LoginProps) => {
                 name="password"
                 type="password"
                 autoComplete="off"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full bg-slate-100"
               />
             </div>
             {type === 2 && (
@@ -167,7 +167,7 @@ const Login = ({ type }: LoginProps) => {
                   name="retypepassword"
                   type="password"
                   autoComplete="off"
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-slate-100"
                 />
                 <br />
               </div>
