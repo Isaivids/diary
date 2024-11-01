@@ -39,11 +39,11 @@ const Notes = () => {
         <input
           type="text"
           placeholder="Search"
-          className="rounded-md w-4/5 p-2 bg-slate-200 outline-0 border-0 text-gray-900 shadow-sm"
+          className="rounded-md w-4/5 p-2 bg-white outline-0 border-0 text-gray-900 shadow-sm"
         />
         <button className="w-1/5 bg-indigo-600 text-white px-3 rounded-md">Search</button>
       </div>
-      <Card data={data}/>
+      {data.length ? <Card data={data}/> : "No data found"}
     </div>
     </>
   );

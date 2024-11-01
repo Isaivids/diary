@@ -6,7 +6,7 @@ const Notification = ({ data }: any) => {
     <div className="m-3">
       <div role="alert" className="alert alert-error">
         <CgDanger />
-        <span className="font-semibold">{data}</span>
+        <span className="font-semibold text-sm text-white">{data}</span>
       </div>
     </div>
   );
