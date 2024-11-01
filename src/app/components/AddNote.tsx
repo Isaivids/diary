@@ -11,7 +11,6 @@ const AddNote = () => {
   const user = useSelector((state:any) => state.user);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const token = sessionStorage.getItem("idToken") || "";
   // State to manage form values
   const [formData, setFormData] = useState({
     person: "",
