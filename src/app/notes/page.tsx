@@ -14,7 +14,6 @@ const Notes = () => {
     try {
       setLoading(true);
       const response = await apiCall.get("/note/view")
-      console.log(response)
       if (!response.data.error) {
         setData(response.data.data);
       }else{

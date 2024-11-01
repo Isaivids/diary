@@ -17,16 +17,28 @@ export async function POST(req: any) {
         const middlewareResponse = await validateToken(req);
         if (middlewareResponse) return middlewareResponse;
         const body = await req.json();
-        const { userId, person, dateoftransaction, transactionamount, description, settled, typeoftransaction } = body;
+        const { id, userId, person, dateoftransaction, transactionamount, description, settled, typeoftransaction } = body;
         if (!userId || !person || !dateoftransaction || !transactionamount || !typeoftransaction) {
-            return NextResponse.json({ message: 'Missing required fields.', error: true }, { status: 201 });
+            return NextResponse.json({ message: 'Missing required fields.', error: true }, { status: 400 });
         }
-
         const user = await UserModel.findById(userId);
         if (!user) {
-            return NextResponse.json({ message: 'User not found.', error: true }, { status: 201 });
+            return NextResponse.json({ message: 'User not found.', error: true }, { status: 404 });
         }
-
+        let note;
+        if (id) {
+            note = await NoteModel.findById(id);
+            if (note) {
+                note.person = person;
+                note.dateoftransaction = dateoftransaction;
+                note.transactionamount = transactionamount;
+                note.description = description;
+                note.settled = settled;
+                note.typeoftransaction = typeoftransaction;
+                await note.save();
+                return NextResponse.json({ data: note, message: 'Note updated successfully.', error: false }, { status: 200 });
+            }
+        }
         const newNote = new NoteModel({
             person,
             user: userId,
@@ -38,7 +50,8 @@ export async function POST(req: any) {
         });
 
         await newNote.save();
-        return NextResponse.json({ data: newNote, error: false }, { status: 200 });
+        return NextResponse.json({ data: newNote, message: 'Note created successfully.', error: false }, { status: 201 });
+
     } catch (error: any) {
         return NextResponse.json({ message: error.message, error: true }, { status: 500 });
     }

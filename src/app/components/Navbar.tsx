@@ -44,7 +44,7 @@ const Navbar = () => {
           <Link href="/notes">Diary</Link>
         </div>
         <div className="hidden md:flex gap-3">
-          <Link href="/notes/new" className="btn btn-secondary px-3 py-2 rounded">
+          <Link href="/notes/new" onClick={()=>setIsOpen(false)} className="btn btn-secondary px-3 py-2 rounded">
             New Note
           </Link>
           <div
@@ -88,6 +88,7 @@ const Navbar = () => {
             <Link
               href="/notes/new"
               className="text-white hover:bg-indigo-300 px-3 py-2 rounded"
+              onClick={()=>setIsOpen(false)}
             >
               New Note
             </Link>

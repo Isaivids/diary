@@ -9,7 +9,6 @@ export const validateToken = async (req: any) => {
     
     const token = req.headers.get('authorization')?.replace('Bearer ', '');
     const JWT_SECRET: any = process.env.JWT_SECRET;
-
     try {
         const decodedUser: any = await new Promise((resolve, reject) => {
             jwt.verify(token, JWT_SECRET, (err:any, user:any) => {

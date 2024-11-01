@@ -1,16 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import axios from 'axios';
-import { useRouter } from "next/navigation";
 import Loader from "./Loader";
 import { apiCall } from "@/utils/axios";
+import Notification from "./Notification";
+import { TbProgressCheck } from "react-icons/tb";
+import { useParams, useRouter } from "next/navigation";
 
 
 const AddNote = () => {
   const user = useSelector((state:any) => state.user);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const router:any = useRouter();
+  const params = useParams();
+  const [message, setMessage] = useState("")
   // State to manage form values
   const [formData, setFormData] = useState({
     person: "",
@@ -23,7 +26,6 @@ const AddNote = () => {
   // Handle input changes
   const handleChange = (e:any) => {
     const { name, value } = e.target;
-    console.log(name,value)
     setFormData({
       ...formData,
       [name]: value,
@@ -33,21 +35,33 @@ const AddNote = () => {
   // Handle form submission
   const handleSubmit = async (e:any) => {
     e.preventDefault();
-    console.log("Form Data:", formData,user);
+    const { person, dateOfTransaction, transactionAmount, description, typeOfTransaction } = formData;
+    if (!person || !dateOfTransaction || !transactionAmount || !description || typeOfTransaction === undefined) {
+      setLoading(false);
+      setMessage("Please fill in all required fields.");
+      return;
+    }
+    setMessage('');
     setLoading(true);
-    const payload = {
-      person : formData.person,
+    const payload:any = {
+      person : person,
       userId: user.data._id,
-      dateoftransaction : formData.dateOfTransaction,
-      transactionamount : Number(formData.transactionAmount),
-      description : formData.description,
+      dateoftransaction : dateOfTransaction,
+      transactionamount : Number(transactionAmount),
+      description : description,
       settled : false,
-      typeoftransaction : Number(formData.typeOfTransaction)
+      typeoftransaction : Number(typeOfTransaction)
+    }
+    if(params.id){
+      payload['id'] = params.id
     }
     try {
       const response = await apiCall.post('/note/add',payload)
       if (!response.data.data.error) {
         router.push("/notes");
+        setMessage('');
+      }else{
+        setMessage(response.data.data.message || "Unable to process this now");
       }
     } catch (error: any) {
       console.error("Error logging in:", error.response?.data || error.message);
@@ -56,12 +70,41 @@ const AddNote = () => {
     }
   };
 
+  const getNoteDetails = useCallback(async (id:any) => {
+    try {
+      setLoading(true);
+      const response = await apiCall.post("/note/getone",{noteId : id});
+      if (!response.data.error) {
+        const {person, dateoftransaction, transactionamount, typeoftransaction, description} = response.data.data;
+        setFormData({
+          person: person,
+          dateOfTransaction: dateoftransaction.substring(0,10),
+          transactionAmount: transactionamount,
+          typeOfTransaction: typeoftransaction.toString(),
+          description: description
+        })
+      }
+    } catch (error: any) {
+      // router.push('/');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if(params.id){
+      getNoteDetails(params.id)
+    }
+  }, [getNoteDetails, params.id])
+  
+
   return (
     <>
     {loading && <Loader />}
+    {message && <Notification data={message}/>}
     <form onSubmit={handleSubmit} className="m-3">
       <div className="flex flex-wrap gap-3 justify-center">
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-56 w-full md:min-w-60 md:w-60">
           <label htmlFor="person">
             Name of the person<small>*</small>
           </label>
@@ -74,7 +117,7 @@ const AddNote = () => {
             className="input input-bordered min-w-56 w-full md:min-w-60 md:w-60 mt-2"
           />
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-56 w-full md:min-w-60 md:w-60">
           <label htmlFor="dateOfTransaction">
             Date of Transaction<small>*</small>
           </label>
@@ -87,7 +130,7 @@ const AddNote = () => {
             className="input input-bordered min-w-56 w-full md:min-w-60 md:w-60 mt-2"
           />
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-56 w-full md:min-w-60 md:w-60">
           <label htmlFor="transactionAmount">
             Transaction Amount<small>*</small>
           </label>
@@ -100,16 +143,16 @@ const AddNote = () => {
             className="input input-bordered min-w-56 w-full md:min-w-60 md:w-60 mt-2"
           />
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-56 w-full md:min-w-60 md:w-60">
           <label>Type of Transaction<small>*</small></label>
-          <div className="flex items-center h-full justify-center">
+          <div className="flex items-center h-full justify-start mt-2">
             <input
               type="radio"
               name="typeOfTransaction"
               value={1}
               checked={formData.typeOfTransaction === "1"}
               onChange={handleChange}
-              className="radio radio-primary"
+              className="me-3 radio radio-primary"
             /> To Receive
             <input
               type="radio"
@@ -117,7 +160,7 @@ const AddNote = () => {
               value={2}
               checked={formData.typeOfTransaction === "2"}
               onChange={handleChange}
-              className="ms-3 radio radio-primary"
+              className="mx-3 radio radio-primary"
             /> To Send
           </div>
         </div>
@@ -138,8 +181,8 @@ const AddNote = () => {
         </div>
       </div>
       <div className="flex gap-3 justify-center items-center w-full mt-3">
-        <button type="submit" className="btn btn-info w-full md:w-32">
-          Submit
+        <button type="submit" className="btn btn-primary w-full md:w-64 font-semibold text-white">
+          <TbProgressCheck />{params.id ? "Update Note" : "Add Note"}
         </button>
       </div>
     </form>

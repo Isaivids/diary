@@ -27,7 +27,7 @@ export async function GET(req: any) {
             // ...searchFilter
         })
         .limit(20)
-        .sort({ dateoftransaction: -1 });
+        .sort({ createdAt: -1 });
         return NextResponse.json({ data: notes, error: false }, { status: 200 });
     } catch (error: any) {
         return NextResponse.json({ message: error.message, error: true }, { status: 500 });
