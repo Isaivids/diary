@@ -34,6 +34,7 @@ export default function RootLayout({
       <head>
         <title>{(metadata?.title as string) || "Diary"}</title>
         <meta name="description" content={metadata?.description || "Diary"} />
+        <link rel="icon" href="/diarylogo.svg" type="image/svg+xml" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
