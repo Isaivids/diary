@@ -12,11 +12,13 @@ import Loader from "./Loader";
 import { useSelector } from "react-redux";
 import { IoMdDoneAll } from "react-icons/io";
 import { FaCaretDown, FaCaretUp, FaCircleNotch } from "react-icons/fa";
+import Notification from "./Notification";
 
 const Card = ({ data: initialData }: any) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(initialData);
   const user = useSelector((state: any) => state.user);
+  const [message, setMessage] = useState('');
 
   const callAction = async (data2: any) => {
     setLoading(true);
@@ -36,10 +38,13 @@ const Card = ({ data: initialData }: any) => {
         const updatedArray = data.map((item: any) =>
           item._id === data2._id ? response.data.data : item
         );
+        setMessage('');
         setData(updatedArray); // Update the state here
+      }else{
+        setMessage(response.data.message || "Please try again");
       }
     } catch (error: any) {
-      console.error("Error logging in:", error.response?.data || error.message);
+      setMessage(error.response?.data || error.message);
     } finally {
       setLoading(false);
     }
@@ -54,10 +59,13 @@ const Card = ({ data: initialData }: any) => {
       });
       if (!response.data.error) {
         const newArray = data.filter((item: any) => item._id !== id);
+        setMessage('');
         setData(newArray);
+      }else{
+        setMessage(response.data.message || "Please try again");
       }
     } catch (error: any) {
-      console.error("Error logging in:", error.response?.data || error.message);
+      setMessage(error.response?.data || error.message);
     } finally {
       setLoading(false);
     }
@@ -71,6 +79,7 @@ const Card = ({ data: initialData }: any) => {
   return (
     <>
       {loading && <Loader />}
+      {message && <Notification data={message} />}
       <div className="flex flex-wrap gap-1 justify-center">
         {data.length &&
           data.map((x: any) => {
@@ -122,7 +131,8 @@ const Card = ({ data: initialData }: any) => {
                   </button>
                   <Link
                     href={`notes/${x?._id}`}
-                    className="btn btn-success w-1/4 p-0 min-h-3 h-8 text-white"
+                    className={`btn btn-success w-1/4 p-0 min-h-3 h-8 text-white ${x?.settled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={(e) => x?.settled && e.preventDefault()}
                   >
                     <MdModeEditOutline />
                     Edit
