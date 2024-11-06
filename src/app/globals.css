@@ -3,26 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --d-white: #FAFAFA;
+  --d-white2: #efefef;
+  --d-black: #2C2E48;
+  --d-green : #59C174;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
 body {
-  color: #0a0a0a;
-  background: #ededed;
+  color: var(--d-black);
+  /* background: var(--d-white); */
+  background-color: #FAFAFA;
+  opacity: 1;
+  background-image: radial-gradient(#2C2E48 0.5px, #FAFAFA 0.5px);
+  background-size: 10px 10px;
   font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
 }
 
-
-/* Hide the number selector (spinner) */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -34,10 +32,6 @@ input[type="number"] {
     appearance: textfield;
 }
 
-label{
-  color: rgb(119, 119, 119);
-  font-weight: 600;
-}
 small{
   color: red;
   font-size: 16px;
@@ -46,4 +40,19 @@ small{
 .menu{
   position: absolute;
   right: 30px;
+}
+
+input[type="text"],input[type="password"],input[type="number"],input[type="date"],.textarea{
+  background-color: var(--d-white);
+  border: 1.7px solid var(--d-green);
+  padding: 0.6rem;
+  border-radius: 10px;
+}
+input[type="text"]:focus,input[type="password"]:focus,input[type="number"]:focus,input[type="date"]:focus,.textarea:focus{
+  outline: none;
+  background-color: var(--d-white2);
+}
+
+.d-bg-black{
+  background-color: var(--d-black);
 }

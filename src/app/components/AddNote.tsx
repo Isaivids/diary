@@ -152,7 +152,7 @@ const AddNote = () => {
               value={1}
               checked={formData.typeOfTransaction === "1"}
               onChange={handleChange}
-              className="me-3 radio radio-primary"
+              className="me-3 radio radio-d-green"
             /> To Receive
             <input
               type="radio"
@@ -160,7 +160,7 @@ const AddNote = () => {
               value={2}
               checked={formData.typeOfTransaction === "2"}
               onChange={handleChange}
-              className="mx-3 radio radio-primary"
+              className="mx-3 radio radio-d-green"
             /> To Send
           </div>
         </div>
@@ -181,7 +181,7 @@ const AddNote = () => {
         </div>
       </div>
       <div className="flex gap-3 justify-center items-center w-full mt-3">
-        <button type="submit" className="btn btn-primary w-full md:w-64 font-semibold text-white">
+        <button type="submit" className="btn bg-d-green hover:bg-black w-full md:w-64 font-semibold text-white">
           <TbProgressCheck />{params.id ? "Update Note" : "Add Note"}
         </button>
       </div>

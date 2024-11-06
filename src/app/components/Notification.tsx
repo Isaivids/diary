@@ -3,10 +3,10 @@ import { CgDanger } from "react-icons/cg";
 
 const Notification = ({ data }: any) => {
   return (
-    <div className="m-3">
-      <div role="alert" className="alert alert-error">
+    <div className="m-1">
+      <div role="alert" className="alert alert-error p-2">
         <CgDanger />
-        <span className="font-semibold text-sm text-white">{data}</span>
+        <span className="font-medium text-sm text-white">{data}</span>
       </div>
     </div>
   );

@@ -109,10 +109,10 @@ const Login = ({ type }: LoginProps) => {
   return (
     <>
       {loading && <Loader />}
-      <div className="flex flex-col justify-center bg-white m-2 p-4 rounded-md shadow-sm w-4/5 md:w-1/4 ">
+      <div className="flex flex-col justify-center d-bg-black m-2 p-4 rounded-md shadow-sm w-4/5 md:w-1/4 ">
         {message && <Notification data={message} />}
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+          <h2 className="text-center text-2xl/9 font-bold tracking-tight text-d-green">
             {type === 1 ? "Sign in to your account" : "Create your account"}
           </h2>
         </div>
@@ -125,7 +125,7 @@ const Login = ({ type }: LoginProps) => {
             <div>
               <label
                 htmlFor="d-username"
-                className="text-sm/6 font-medium text-gray-900"
+                className="text-sm/6 font-semibold text-d-green"
               >
                 Username
               </label>
@@ -135,13 +135,13 @@ const Login = ({ type }: LoginProps) => {
                 id="d-username"
                 name="username"
                 autoComplete="off"
-                className="input input-bordered w-full bg-slate-100"
+                className="w-full"
               />
             </div>
             <div>
               <label
                 htmlFor="d-password"
-                className="text-sm/6 font-medium text-gray-900"
+                className="text-sm/6 font-semibold text-d-green"
               >
                 Password
               </label>
@@ -151,14 +151,14 @@ const Login = ({ type }: LoginProps) => {
                 name="password"
                 type="password"
                 autoComplete="off"
-                className="input input-bordered w-full bg-slate-100"
+                className="w-full"
               />
             </div>
             {type === 2 && (
               <div>
                 <label
                   htmlFor="retypepassword"
-                  className="text-sm/6 font-semibold text-gray-900"
+                  className="text-sm/6 font-semibold text-d-green"
                 >
                   Re-type password
                 </label>
@@ -167,20 +167,20 @@ const Login = ({ type }: LoginProps) => {
                   name="retypepassword"
                   type="password"
                   autoComplete="off"
-                  className="input input-bordered w-full bg-slate-100"
+                  className="w-full"
                 />
                 <br />
               </div>
             )}
-            <button type="submit" className="btn btn-success text-red-50">
+            <button type="submit" className="btn bg-d-green border-opacity-0 hover:bg-d-green text-d-white">
               {type === 1 ? "Sign in" : "Register"}
             </button>
           </form>
-          <p className="mt-5 text-center text-sm/6 text-gray-500">
+          <p className="mt-5 text-center text-sm/6 text-d-white2">
             {type === 1 ? "New User?" : "Already an user"}
             <Link
               href={type === 1 ? "/register" : "/"}
-              className="font-semibold text-indigo-600 hover:text-indigo-500"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
             >
               {" "}{type === 1 ? "Create an account" : "Log In"}
             </Link>

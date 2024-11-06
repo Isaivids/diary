@@ -38,20 +38,20 @@ const Navbar = () => {
   }, [getUserDetails]);
 
   return (
-    <nav className="bg-indigo-600 p-4">
+    <nav className="bg-d-green p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white font-bold text-lg">
+        <div className="text-d-white font-bold text-lg">
           <Link href="/notes">Diary</Link>
         </div>
         <div className="hidden md:flex gap-3">
-          <Link href="/notes/new" onClick={()=>setIsOpen(false)} className="btn btn-secondary px-3 py-2 rounded">
+          <Link href="/notes/new" onClick={()=>setIsOpen(false)} className="btn bg-d-black border-opacity-0 text-d-white hover:bg-d-white hover:border-opacity-0 hover:text-d-black px-3 py-2 rounded">
             New Note
           </Link>
           <div
             className="avatar placeholder"
             onClick={() => setMenuVisible(!menuVisible)}
           >
-            <div className="bg-white text-indigo-600 font-bold w-12 rounded-full cursor-pointer">
+            <div className="bg-white text-d-green font-bold w-12 rounded-full cursor-pointer">
               <span className="uppercase">
                 {data?.username.substring(0, 2) || "U"}
               </span>
@@ -83,28 +83,32 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden flex justify-center mt-3">
-          <div className="bg-indigo-600">
+        <div className="md:hidden flex flex-col justify-center mt-3 gap-3">
+          <div className="flex w-full">
             <Link
               href="/notes/new"
-              className="text-white hover:bg-indigo-300 px-3 py-2 rounded"
-              onClick={()=>setIsOpen(false)}
+              className="btn w-full bg-d-black border-opacity-0 text-d-white hover:bg-d-white hover:border-opacity-0 hover:text-d-black px-3 py-2 rounded"              onClick={()=>setIsOpen(false)}
             >
               New Note
             </Link>
+          </div>
+          <div
+            className="avatar placeholder flex flex-row-reverse"
+            onClick={() => setMenuVisible(!menuVisible)}
+          >
+            <div className="bg-white text-d-green font-bold w-12 rounded-full cursor-pointer">
+              <span className="uppercase">
+                {data?.username.substring(0, 2) || "U"}
+              </span>
+            </div>
+            <div className="text-d-white font-bold mx-3">{data?.username || "Unknown"}</div>
           </div>
         </div>
       )}
       {menuVisible && (
         <ul className="menu bg-base-200 rounded-box w-56">
           <li>
-            <a>Item 1</a>
-          </li>
-          <li>
-            <a>Item 2</a>
-          </li>
-          <li>
-            <a>Item 3</a>
+            <a>Logout</a>
           </li>
         </ul>
       )}
