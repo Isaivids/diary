@@ -5,20 +5,23 @@ import { apiCall } from "@/utils/axios";
 import Loader from "../components/Loader";
 import { LuFilter } from "react-icons/lu";
 import { RiCloseLargeLine } from "react-icons/ri";
+import { IoTrendingUpSharp } from "react-icons/io5";
+import { IoIosTrendingDown } from "react-icons/io";
 
 const Notes = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [totals, setTotals]:any = useState();
   const today = new Date();
   const lastYear = new Date();
   lastYear.setFullYear(today.getFullYear() - 1);
   
   const [filters, setFilters] = useState({
     range: 25000,
-    dateOfTransactionStart: lastYear.toISOString().split('T')[0],  // Format to YYYY-MM-DD
-    dateOfTransactionEnd: today.toISOString().split('T')[0],       // Format to YYYY-MM-DD
+    dateOfTransactionStart: lastYear.toISOString().split('T')[0],
+    dateOfTransactionEnd: today.toISOString().split('T')[0],
     transactionType: {
       send: true,
       receive: true,
@@ -53,6 +56,25 @@ const Notes = () => {
     }));
   };
 
+  const getTotals = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await apiCall.get(`/note/total`);
+      if (!response.data.error) {
+        setTotals(response.data);
+      } else {
+        // Handle error, e.g., redirect to another page
+      }
+    } catch (error: any) {
+      console.error(
+        "Error fetching data:",
+        error.response?.data || error.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const getUserDetails = useCallback(async (filter:any='') => {
     try {
       setLoading(true);
@@ -71,6 +93,11 @@ const Notes = () => {
       setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    getTotals();
+  }, [getTotals])
+  
 
   useEffect(() => {
     getUserDetails();
@@ -142,7 +169,19 @@ const Notes = () => {
             <LuFilter />
           </div>
         </div>
-        {data.length ? <Card data={data} /> : "No data found"}
+        <div className="flex gap-3 p-3 justify-between text-center font-bold text-3xl">
+        <div className="bg-base-100 shadow-md p-4 w-2/5 rounded-md">
+          <div className="flex items-center gap-2 justify-center text-green-500">
+            <IoTrendingUpSharp />{totals?.totalType1 || 0}
+          </div>
+        </div>
+        <div className="bg-base-100 shadow-md p-4 w-2/5 rounded-md">
+          <div className="flex items-center gap-2 justify-center text-red-500">
+            <IoIosTrendingDown />{totals?.totalType2 || 0}
+          </div>
+        </div>
+      </div>
+        {data.length ? <Card data={data} getTotals={getTotals}/> : "No data found"}
       </form>
 
       {/* Drawer Component */}

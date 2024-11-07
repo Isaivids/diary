@@ -14,7 +14,7 @@ import { IoMdDoneAll } from "react-icons/io";
 import { FaCaretDown, FaCaretUp, FaCircleNotch } from "react-icons/fa";
 import Notification from "./Notification";
 
-const Card = ({ data: initialData }: any) => {
+const Card = ({ data: initialData, getTotals }: any) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(initialData);
   const user = useSelector((state: any) => state.user);
@@ -47,6 +47,7 @@ const Card = ({ data: initialData }: any) => {
       setMessage(error.response?.data || error.message);
     } finally {
       setLoading(false);
+      getTotals();
     }
   };
 
@@ -68,6 +69,7 @@ const Card = ({ data: initialData }: any) => {
       setMessage(error.response?.data || error.message);
     } finally {
       setLoading(false);
+      getTotals();
     }
   };
 
@@ -124,7 +126,7 @@ const Card = ({ data: initialData }: any) => {
                   </button>
                   <button
                     onClick={() => callAction(x)}
-                    className="btn bg-sky-400 w-1/4 p-0 min-h-3 h-8 text-white"
+                    className="btn bg-d-black w-1/4 p-0 min-h-3 h-8 text-white"
                   >
                     <MdAttachMoney />
                     {x.settled ? "Reopen" : "Close"}

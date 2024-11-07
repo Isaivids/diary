@@ -1,6 +1,7 @@
 .loaderContainer {
     position: fixed;
     top: 0;
+    left: 0 !important;
     display: flex;
     justify-content: center;
     align-items: center;
