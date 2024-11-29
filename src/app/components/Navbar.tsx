@@ -38,6 +38,8 @@ const Navbar = () => {
   }, [getUserDetails]);
 
   return (
+    <>
+    {loading && <Loader />}
     <nav className="bg-d-green p-4">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-d-white font-bold text-lg">
@@ -113,6 +115,7 @@ const Navbar = () => {
         </ul>
       )}
     </nav>
+    </>
   );
 };
 
