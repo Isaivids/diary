@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import userSchema from '../../schema/user';
 import { validateToken } from '../../middlewares/validateToken';
+import { connectToDatabase } from '../../db/dbconnection';
 
 export async function GET(req: any) {
     try {
+        await connectToDatabase();
         const middlewareResponse = await validateToken(req);
         if (middlewareResponse) return middlewareResponse;
         const user = await userSchema
