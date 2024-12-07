@@ -152,7 +152,7 @@ const AddNote = () => {
               value={1}
               checked={formData.typeOfTransaction === "1"}
               onChange={handleChange}
-              className="me-3 radio radio-d-green"
+              className="me-3 radio radio-d-green bg-white"
             /> To Receive
             <input
               type="radio"
@@ -160,7 +160,7 @@ const AddNote = () => {
               value={2}
               checked={formData.typeOfTransaction === "2"}
               onChange={handleChange}
-              className="mx-3 radio radio-d-green"
+              className="mx-3 radio radio-d-green bg-white"
             /> To Send
           </div>
         </div>

@@ -220,16 +220,16 @@ const Notes = () => {
         }`}
         style={{ width: "75%" }}
       >
+        <button
+          onClick={toggleDrawer}
+          className="mb-4 btn bg-d-black hover:bg-d-green btn-circle text-white px-2"
+        >
+          <RiCloseLargeLine />
+        </button>
         <form
           className="content flex flex-col"
           onSubmit={(e) => handleSearch(e)}
         >
-          <button
-            onClick={toggleDrawer}
-            className="mb-4 btn bg-d-black hover:bg-d-green btn-circle text-white px-2"
-          >
-            <RiCloseLargeLine />
-          </button>
           <div className="filters">
             <div className="flex flex-col gap-3">
               <span>

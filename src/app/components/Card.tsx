@@ -88,7 +88,7 @@ const Card = ({ data: initialData, getTotals }: any) => {
             return (
               <div
                 key={x?._id}
-                className="my-1 rounded-md overflow-hidden shadow-md bg-white w-full md:w-2/4 lg:w-1/4"
+                className="my-1 rounded-md overflow-hidden shadow-md bg-white w-full md:w-[300px] lg:w-[400px]"
               >
                 <div className="flex justify-between p-2 bg-d-green text-white font-medium">
                   <span>{x?.person}</span>
@@ -97,7 +97,7 @@ const Card = ({ data: initialData, getTotals }: any) => {
                 <div className="flex flex-col align-middle justify-center text-center">
                   <span>{x?.description}</span>
                   <span className="font-bold text-2xl">
-                    $ {x?.transactionamount}
+                  ₹ {x?.transactionamount}
                   </span>
                   <span className="flex text-center justify-center items-center gap-3">
                     Type : {checkType(Number(x?.typeoftransaction))}{" "}
