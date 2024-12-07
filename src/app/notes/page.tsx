@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
 import Card from "../components/Card";
@@ -13,21 +14,21 @@ const Notes = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [totals, setTotals]:any = useState();
+  const [totals, setTotals]: any = useState();
   const today = new Date();
   const lastYear = new Date();
   lastYear.setFullYear(today.getFullYear() - 1);
-  
+
   const [filters, setFilters] = useState({
     range: 25000,
-    dateOfTransactionStart: lastYear.toISOString().split('T')[0],
-    dateOfTransactionEnd: today.toISOString().split('T')[0],
+    dateOfTransactionStart: lastYear.toISOString().split("T")[0],
+    dateOfTransactionEnd: today.toISOString().split("T")[0],
     transactionType: {
       send: true,
       receive: true,
     },
     status: {
-      done: true,
+      done: false,
       pending: true,
     },
   });
@@ -75,7 +76,7 @@ const Notes = () => {
     }
   }, []);
 
-  const getUserDetails = useCallback(async (filter:any='') => {
+  const getUserDetails = useCallback(async (filter: any = "") => {
     try {
       setLoading(true);
       const response = await apiCall.get(`/note/view${filter}`);
@@ -96,24 +97,46 @@ const Notes = () => {
 
   useEffect(() => {
     getTotals();
-  }, [getTotals])
-  
+  }, [getTotals]);
 
   useEffect(() => {
-    getUserDetails();
-  }, [getUserDetails]);
+    const initialQueryParams = new URLSearchParams();
+    initialQueryParams.append("amountFrom", "0");
+    initialQueryParams.append("amountTo", filters.range.toString());
+    if (filters.dateOfTransactionStart) {
+      initialQueryParams.append("dateFrom", filters.dateOfTransactionStart);
+    }
+    if (filters.dateOfTransactionEnd) {
+      initialQueryParams.append("dateTo", filters.dateOfTransactionEnd);
+    }
+    if (filters.transactionType.send && filters.transactionType.receive) {
+      // No filter for transactionType
+    } else if (filters.transactionType.send) {
+      initialQueryParams.append("transactionType", "2");
+    } else if (filters.transactionType.receive) {
+      initialQueryParams.append("transactionType", "1");
+    }
+    if (filters.status.done && filters.status.pending) {
+      // No filter for status
+    } else if (filters.status.done) {
+      initialQueryParams.append("settled", "true");
+    } else if (filters.status.pending) {
+      initialQueryParams.append("settled", "false");
+    }
+
+    getUserDetails(`?${initialQueryParams.toString()}`);
+  }, []);
 
   const handleSearch = (e: any) => {
     e.preventDefault();
-    setIsDrawerOpen(false)
+    setIsDrawerOpen(false);
     // Construct query parameters for API
     const queryParams = new URLSearchParams();
     if (search) {
       queryParams.append("search", search.toString());
     }
-    if(filters.range >= 25000){
-
-    }else if (filters.range) {
+    if (filters.range >= 25000) {
+    } else if (filters.range) {
       queryParams.append("amountFrom", "0");
       queryParams.append("amountTo", filters.range.toString());
     }
@@ -125,7 +148,7 @@ const Notes = () => {
     }
     // Transaction type filter
     if (filters.transactionType.send && filters.transactionType.receive) {
-      // If both done and pending are true, we do not filter on settled, 
+      // If both done and pending are true, we do not filter on settled,
     } else if (filters.transactionType.send) {
       queryParams.append("transactionType", "2");
     } else if (filters.transactionType.receive) {
@@ -134,7 +157,7 @@ const Notes = () => {
 
     // Status filter (settled)
     if (filters.status.done && filters.status.pending) {
-      // If both done and pending are true, we do not filter on settled, 
+      // If both done and pending are true, we do not filter on settled,
     } else if (filters.status.done) {
       queryParams.append("settled", "true");
     } else if (filters.status.pending) {
@@ -169,19 +192,25 @@ const Notes = () => {
             <LuFilter />
           </div>
         </div>
-        <div className="flex gap-3 p-3 justify-between text-center font-bold text-3xl">
-        <div className="bg-base-100 shadow-md p-4 w-2/5 rounded-md">
-          <div className="flex items-center gap-2 justify-center text-green-500">
-            <IoTrendingUpSharp />{totals?.totalType1 || 0}
+        <div className="flex gap-3 mb-2 flex-wrap justify-between text-center font-bold text-3xl">
+          <div className="bg-base-100 shadow-md p-4 w-full md:w-2/5 rounded-md">
+            <div className="flex items-center gap-2 justify-center text-green-500">
+              <IoTrendingUpSharp />
+              {totals?.totalType1 || 0}
+            </div>
+          </div>
+          <div className="bg-base-100 shadow-md p-4 w-full md:w-2/5 rounded-md">
+            <div className="flex items-center gap-2 justify-center text-red-500">
+              <IoIosTrendingDown />
+              {totals?.totalType2 || 0}
+            </div>
           </div>
         </div>
-        <div className="bg-base-100 shadow-md p-4 w-2/5 rounded-md">
-          <div className="flex items-center gap-2 justify-center text-red-500">
-            <IoIosTrendingDown />{totals?.totalType2 || 0}
-          </div>
-        </div>
-      </div>
-        {data.length ? <Card data={data} getTotals={getTotals}/> : "No data found"}
+        {data.length ? (
+          <Card data={data} getTotals={getTotals} />
+        ) : (
+          "No data found"
+        )}
       </form>
 
       {/* Drawer Component */}

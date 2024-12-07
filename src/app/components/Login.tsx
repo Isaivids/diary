@@ -109,7 +109,7 @@ const Login = ({ type }: LoginProps) => {
   return (
     <>
       {loading && <Loader />}
-      <div className="flex flex-col justify-center d-bg-black m-2 p-4 rounded-md shadow-sm w-4/5 md:w-1/4 ">
+      <div className="flex flex-col justify-center d-bg-black m-2 p-4 rounded-md shadow-sm w-4/5 md:w-2/4 lg:w-1/4 ">
         {message && <Notification data={message} />}
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="text-center text-2xl/9 font-bold tracking-tight text-d-green">
@@ -172,7 +172,7 @@ const Login = ({ type }: LoginProps) => {
                 <br />
               </div>
             )}
-            <button type="submit" className="btn bg-d-green border-opacity-0 hover:bg-d-green text-d-white">
+            <button type="submit" className="no-animation btn bg-d-green border-opacity-0 hover:bg-d-green text-d-white">
               {type === 1 ? "Sign in" : "Register"}
             </button>
           </form>

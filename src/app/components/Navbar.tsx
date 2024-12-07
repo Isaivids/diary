@@ -46,7 +46,7 @@ const Navbar = () => {
           <Link href="/notes">Diary</Link>
         </div>
         <div className="hidden md:flex gap-3">
-          <Link href="/notes/new" onClick={()=>setIsOpen(false)} className="btn bg-d-black border-opacity-0 text-d-white hover:bg-d-white hover:border-opacity-0 hover:text-d-black px-3 py-2 rounded">
+          <Link href="/notes/new" onClick={()=>setIsOpen(false)} className="btn no-animation bg-d-black border-opacity-0 text-d-white hover:bg-d-white hover:border-opacity-0 hover:text-d-black px-3 py-2 rounded">
             New Note
           </Link>
           <div

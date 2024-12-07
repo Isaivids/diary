@@ -3,19 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --d-white: #FAFAFA;
+  --d-white: #fafafa;
   --d-white2: #efefef;
-  --d-black: #2C2E48;
-  --d-green : #59C174;
+  --d-black: #2c2e48;
+  --d-green: #59c174;
 }
-
 
 body {
   color: var(--d-black);
   /* background: var(--d-white); */
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   opacity: 1;
-  background-image: radial-gradient(#2C2E48 0.5px, #FAFAFA 0.5px);
+  background-image: radial-gradient(#2c2e48 0.5px, #fafafa 0.5px);
   background-size: 10px 10px;
   font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
@@ -23,36 +22,44 @@ body {
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input[type="number"] {
-    -moz-appearance: textfield;
-    appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
-small{
+small {
   color: red;
   font-size: 16px;
   font-weight: 800;
 }
-.menu{
+.menu {
   position: absolute;
   right: 30px;
 }
 
-input[type="text"],input[type="password"],input[type="number"],input[type="date"],.textarea{
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+.textarea {
   background-color: var(--d-white);
   border: 1.7px solid var(--d-green);
   padding: 0.6rem;
   border-radius: 10px;
 }
-input[type="text"]:focus,input[type="password"]:focus,input[type="number"]:focus,input[type="date"]:focus,.textarea:focus{
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+.textarea:focus {
   outline: none;
   background-color: var(--d-white2);
 }
 
-.d-bg-black{
+.d-bg-black {
   background-color: var(--d-black);
 }
